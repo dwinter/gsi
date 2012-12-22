@@ -11,6 +11,7 @@
 
 library(stringr)
 library(genealogicalSorting)
+library(plyr)
 
 gsi_a <- function(tr, imap, nperm=1000){
     grp <- as.factor("A")
@@ -45,7 +46,7 @@ main <- function(){
     n <- length(all_trees)
 
     message("calcuating gsi...")
-    res <- lapply(all_trees, per_tree, sp_map)
+    res <- llply(all_trees, per_tree, sp_map, .progress="text")
     res <- do.call('rbind', res)
 
     message("writing data...")

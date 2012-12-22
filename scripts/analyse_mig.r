@@ -1,7 +1,7 @@
 #!/usr/bin/Rscript
 
 ##
-# Calculate the mean-pairwise gsi for groups "C" and "D" for every migration
+# Calculate the mean-pairwise gsi for groups "B" and "C" for every migration
 # simulation.
 #
 # Note: the 'main' function relies on filenames to identify the tree files to
@@ -10,6 +10,7 @@
 ##
 
 library(stringr)
+library(plyr)
 library(genealogicalSorting)
 
 permute_gsi <- function(observed_value, tr, imap, nperm=1000){
@@ -52,10 +53,10 @@ main <- function(){
 
     sp_map <- read.table("sample.imap")
     message("calcuating gsi...\n")
-    res <- sapply(all_trees, per_tree, sp_map)
+    res <- laply(all_trees, per_tree, sp_map, .progress="text")
 
     message("writing data... \n")
-    df0 <- data.frame(t(res),  m = rep(m_rate, each=n/nfiles))
+    df0 <- data.frame(res,  m = rep(m_rate, each=n/nfiles))
     write.csv(df0, "data/gsi_migration.csv", row.names=FALSE)
 }
 
