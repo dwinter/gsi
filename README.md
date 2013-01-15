@@ -4,17 +4,17 @@
 
 To run these analyses you need
 
-* ms (for simulating gene trees, [avaliable here](http://home.uchicago.edu/rhudson1/source/mksamples.html))
-* Python
-* R
-** R libraries 
-** genealogicalSorting ([avaliable here](http://www.genealogicalsorting.org/))
-** plyr
-** stringr
-** littler
-** (For plots)
-** ggplot2
-** reshape
+- ms (for simulating gene trees, [avaliable here](http://home.uchicago.edu/rhudson1/source/mksamples.html))
+- Python
+- R
+* R libraries 
+* genealogicalSorting ([avaliable here](http://www.genealogicalsorting.org/))
+* plyr
+* stringr
+* littler
+* (For plots)
+* ggplot2
+* reshape
 
 
 ## Check evertyhing works / reproduce our results
