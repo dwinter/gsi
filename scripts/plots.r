@@ -21,24 +21,54 @@ stat_sum_single <- function(fun=mean, geom="point", ...) {
 }
 
 plot_div <- function(){
+    theme_set(theme_bw())
     gsi_sims <- read.csv("data/gsi_2v4.csv")
     molten_sims <- melt(gsi_sims, id.var=c("comp", "t_div"))
 
     p <- ggplot(molten_sims, aes(t_div, value, colour=factor(comp)))
     
     svg("figures/divergence_pval.svg", width=8.5, height=4)
-    print(p + stat_sum_single(fun=function(x) mean(x < 0.05)) + 
+    print(p + stat_summary(fun.y=function(x) mean(x < 0.05), geom='point') + 
         facet_grid(variable~.))
     dev.off()
 
     svg("figures/divergence_gsi.svg", width=8.5, height=4)
     print(
-        p +  stat_summary() + facet_grid(variable~.)
+        p +  stat_summary(fun.y='mean', geom='point') + facet_grid(variable~.)
     )
     dev.off()
 }
 
+
+plot_mig <- function(){
+    theme_set(theme_bw())
+    mig_sims <- read.csv("data/gsi_migration.csv")
+    molten_sims <- melt(mig_sims, id.var=c("m"))
+
+    p <- ggplot(molten_sims, aes(m, value))
+
+    svg("figures/mig_pval.svg", width=8.5, height=4)
+    print(
+           p + geom_point(position='jitter', colour='grey70', size=1.2) +
+               scale_x_log10() + 
+               stat_summary(fun.y=function(x) mean(x <0.05), geom='point') + 
+               facet_grid(variable~.)
+               )
+    dev.off()
+
+    svg("figures/mig_pwgsi.svg", width=8.5, height=4)
+    print(
+           p + geom_point(position='jitter', colour='grey70', size=1.2) +
+               scale_x_log10() + 
+               stat_summary(fun.y=mean, geom='point') + 
+               facet_grid(variable~.)
+    )
+    dev.off()
+}
+
+
+
 if(!interactive()){
     plot_div()
-#    plot_mig()
+    plot_mig()
 }
